@@ -6,11 +6,13 @@ component extends="commandbox.system.BaseCommand" {
 	 * @author Robert Zehnder
 	 * Execute a GET request to specified endpoint
 	 */
-	function run( url = "", params = "", showHeaders = false ){
-		var urlValid    = isValid( "url", arguments.url );
-		var hasParams   = arguments.params.len();
-		var paramsValid = hasParams ? isJSON( arguments.params ) : true;
-
+	function run(
+		url         = "",
+		query       = "",
+		cookie      = "",
+		showHeaders = false
+	){
+		var urlValid = isValid( "url", arguments.url );
 		if ( !urlValid ) {
 			print.redLine( "Invalid URL passed: " & arguments.url );
 			return;
@@ -25,7 +27,8 @@ component extends="commandbox.system.BaseCommand" {
 				"path"     : [],
 				"query"    : []
 			},
-			"header" : []
+			"header"    : [],
+			"arguments" : { "query" : arguments.query, "cookie" : arguments.cookie }
 		};
 
 		RequestSetupService.setupRequest( req );
