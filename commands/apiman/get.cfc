@@ -1,28 +1,23 @@
 component extends="commandbox.system.BaseCommand" {
 
-    property name="JSONPrettyPrint" inject;
+    property name="RequestSetupService" inject="RequestSetupService@commandbox-apiman";
 
-    function run(method = 'get', url = '', params = '') {
+    function run(url = '', params = '', showHeaders = false) {
         var res = 'Please make sure all required parameters were passed in';
         var preparedURL = '';
 
         // validate the verb
-        var methodValid = listFindNoCase('delete,get,patch,post,put', arguments.method);
         var urlValid = isValid('url', arguments.url);
         var hasParams = arguments.params.len();
         var paramsValid = hasParams ? isJSON(arguments.params) : true;
 
-        if (!methodValid) {
-            print.redLine('Invalid verb passed: ' & arguments.method);
-            return;
-        }
-
         if (!urlValid) {
             print.redLine('Invalid URL passed: ' & arguments.url);
             return;
-        } else {
-            preparedURL = arguments.url;
         }
+
+        preparedURL = arguments.url;
+
 
         // are there params and are they valid
         if (hasParams && paramsValid) {
@@ -37,15 +32,26 @@ component extends="commandbox.system.BaseCommand" {
             preparedURL &= '?' & built.toList('&');
         }
 
-        switch (arguments.method) {
-            default:
-                cfhttp(url = preparedURL);
-                breeak;
+        cfhttp(url = preparedURL, method = "GET", charset = "utf-8");
+
+        if (cfhttp.keyExists('responseHeader') && arguments.showHeaders) {
+            for (var key in cfhttp.responseheader) {
+                var keyValue = isSimpleValue(cfhttp.responseHeader[key]) ? cfhttp.responseHeader[key] : serializeJSON(
+                    cfhttp.responseHeader[key]
+                );
+                print.yellowText(key & ': ' & keyValue);
+                print.line();
+            }
+            print.line();
         }
 
-        res = cfhttp.fileContent;
-
-        return isJSON(res) ? JSONPrettyPrint.formatJSON(res) : res;
+        if (isJSON(cfhttp.fileContent)) {
+            print.line(deserializeJSON(cfhttp.fileContent));
+        } else if (isXML(cfhttp.fileContent)) {
+            print.line(xmlParse(cfhttp.fileContent));
+        } else {
+            print.line(cfhttp.fileContent);
+        }
     }
 
 }

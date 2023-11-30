@@ -3,9 +3,7 @@
     "bugs":"",
     "changelog":"",
     "contributors":[],
-    "dependencies":{
-        "JSONPrettyPrint":"^1.4.1"
-    },
+    "dependencies":{},
     "description":"Query your API from commandbox command line",
     "devDependencies":{},
     "documentation":"",
@@ -15,9 +13,7 @@
         "/test/",
         "/tests/"
     ],
-    "installPaths":{
-        "JSONPrettyPrint":"modules/JSONPrettyPrint/"
-    },
+    "installPaths":{},
     "instructions":"",
     "keywords":[],
     "license":[
@@ -27,7 +23,7 @@
         }
     ],
     "location":"ForgeboxStorage",
-    "name":"commandbox-api-man",
+    "name":"commandbox-apiman",
     "private":false,
     "projectURL":"",
     "reinitWatchDelay":500,
@@ -39,7 +35,7 @@
     },
     "scripts":{},
     "shortDescription":"A sweet package",
-    "slug":"commandbox-api-man",
+    "slug":"commandbox-apiman",
     "testbox":{
         "bundles":"",
         "directory":"tests.specs",
