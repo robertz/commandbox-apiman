@@ -23,7 +23,7 @@ component {
 			"?"
 		).listToArray( "/" );
 
-		// Build query strings
+		// Parse query string from the url
 		var qs = req.url.raw.listRest( "?" ).listToArray( "&" );
 		for ( var el in qs ) {
 			var t        = {};
@@ -32,7 +32,7 @@ component {
 			req.url.query.append( t );
 		}
 
-		// handle arguments
+		// Set query values passed as arguments
 		if ( req.arguments.query.len() ) {
 			buildUrl = true;
 			qs       = req.arguments.query.listToArray( ";" );
@@ -44,13 +44,35 @@ component {
 			}
 		}
 
-		// We had arguments that need to be included in the url
+		// Set headers
+		if ( req.arguments.header.len() ) {
+			var hs = req.arguments.header.listToArray( ";" );
+			for ( var el in hs ) {
+				var t        = {};
+				t[ "key" ]   = trim( el.listFirst( "=" ) );
+				t[ "value" ] = trim( el.listRest( "=" ) );
+				req.header.append( t );
+			}
+		}
+
+		// Set cookies
+		if ( req.arguments.cookie.len() ) {
+			var cs = req.arguments.cookie.listToArray( ";" );
+			for ( var el in cs ) {
+				var t        = {};
+				t[ "key" ]   = trim( el.listFirst( "=" ) );
+				t[ "value" ] = trim( el.listRest( "=" ) );
+				req.cookie.append( t );
+			}
+		}
+
+		// If there was a query passed as an argument rebuild the url
 		if ( buildUrl ) {
 			var computed = req.url.protocol & "://" & req.url.host.toList( "." ) & "/" & req.url.path.toList( "/" );
 			qs           = "";
 			if ( req.url.query.len() ) {
 				for ( var q in req.url.query ) {
-					qs = qs.listAppend( q.key & "=" & q.value, "&" )
+					qs = qs.listAppend( q.key & "=" & q.value, "&" );
 				}
 				computed &= "?" & qs;
 				req.url.raw = computed;

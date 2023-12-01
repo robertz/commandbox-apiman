@@ -7,10 +7,11 @@ component extends="commandbox.system.BaseCommand" {
 	 * Execute a GET request to specified endpoint
 	 */
 	function run(
-		url         = "",
-		query       = "",
-		cookie      = "",
-		showHeaders = false
+		url             = "",
+		query           = "",
+		header          = "",
+		cookie          = "",
+		responseHeaders = false
 	){
 		var urlValid = isValid( "url", arguments.url );
 		if ( !urlValid ) {
@@ -28,9 +29,15 @@ component extends="commandbox.system.BaseCommand" {
 				"query"    : []
 			},
 			"header"    : [],
-			"arguments" : { "query" : arguments.query, "cookie" : arguments.cookie }
+			"cookie"    : [],
+			"arguments" : {
+				"query"  : arguments.query,
+				"header" : arguments.header,
+				"cookie" : arguments.cookie
+			}
 		};
 
+		// This will populate the req structure
 		RequestSetupService.setupRequest( req );
 
 		// DEBUG
@@ -41,9 +48,21 @@ component extends="commandbox.system.BaseCommand" {
 			url     = req.url.raw,
 			method  = req.method,
 			charset = "utf-8"
-		);
+		) {
+			for ( var h in req.header ) {
+				cfhttpparam( type = "header", name = h.key, value = h.value );
+			}
 
-		if ( cfhttp.keyExists( "responseHeader" ) && arguments.showHeaders ) {
+			for ( var c in req.cookie ) {
+				cfhttpparam( type = "cookie", name = c.key, value = c.value );
+			}
+		};
+
+		// DEBUG
+		// print.line( req );
+		// return;
+
+		if ( cfhttp.keyExists( "responseHeader" ) && arguments.responseHeaders ) {
 			for ( var key in cfhttp.responseheader ) {
 				var keyValue = isSimpleValue( cfhttp.responseHeader[ key ] ) ? cfhttp.responseHeader[ key ] : serializeJSON(
 					cfhttp.responseHeader[ key ]
