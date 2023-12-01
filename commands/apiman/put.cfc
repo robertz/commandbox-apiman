@@ -11,6 +11,8 @@ component extends="commandbox.system.BaseCommand" {
 		query           = "",
 		header          = "",
 		cookie          = "",
+		form            = "",
+		body            = "",
 		responseHeaders = false
 	){
 		var urlValid = isValid( "url", arguments.url );
@@ -20,7 +22,7 @@ component extends="commandbox.system.BaseCommand" {
 		}
 
 		var req = {
-			"method" : "GET",
+			"method" : "PUT",
 			"url"    : {
 				"raw"      : arguments.url,
 				"protocol" : "",
@@ -46,7 +48,11 @@ component extends="commandbox.system.BaseCommand" {
 			charset = "utf-8"
 		) {
 			for ( var h in req.header ) {
-				cfhttpparam( type = h.type, name = h.key, value = h.value );
+				if ( h.type == "body" ) {
+					cfhttpparam( type = h.type, value = h.value );
+				} else {
+					cfhttpparam( type = h.type, name = h.key, value = h.value );
+				}
 			}
 
 			for ( var c in req.cookie ) {

@@ -20,7 +20,7 @@ component extends="commandbox.system.BaseCommand" {
 		}
 
 		var req = {
-			"method" : "GET",
+			"method" : "DELETE",
 			"url"    : {
 				"raw"      : arguments.url,
 				"protocol" : "",

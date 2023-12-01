@@ -59,3 +59,24 @@ Can also be expressed as:
     }
 ]
 ```
+
+### Posting JSON data to a service
+
+`❯ apiman post url="http://localhost:8000/ui/auth/login" header="Content-Type=application/json" body='{username : "admin", password : "commandbox" }'`
+```json
+{
+    "data":{
+        "isIdentified":true,
+        "user":"admin"
+    },
+    "error":false,
+    "pagination":{
+        "totalPages":1,
+        "maxRows":0,
+        "offset":0,
+        "page":1,
+        "totalRecords":0
+    },
+    "messages":[]
+}
+```
