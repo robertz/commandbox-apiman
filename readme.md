@@ -1,5 +1,11 @@
 ### commandbox-apiman
 
+Installation:
+
+```bash
+box install commandbox-apiman
+```
+
 Apiman is a curl-like application that can be executed from the commandbox commandline.
 
 `❯ apiman get https://jsonplaceholder.typicode.com/todos/1`
