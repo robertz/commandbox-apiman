@@ -49,6 +49,7 @@ component {
 			var hs = req.arguments.header.listToArray( ";" );
 			for ( var el in hs ) {
 				var t        = {};
+				t[ "type" ]  = "header";
 				t[ "key" ]   = trim( el.listFirst( "=" ) );
 				t[ "value" ] = trim( el.listRest( "=" ) );
 				req.header.append( t );
@@ -63,6 +64,27 @@ component {
 				t[ "key" ]   = trim( el.listFirst( "=" ) );
 				t[ "value" ] = trim( el.listRest( "=" ) );
 				req.cookie.append( t );
+			}
+		}
+
+		// verb specific processing for put/post requests
+		if ( listFind( "POST,PUT", req.method ) ) {
+			if ( req.arguments.form.len() ) {
+				var fs = req.arguments.form.listToArray( ";" );
+				for ( var el in fs ) {
+					var t        = {};
+					t[ "type" ]  = "formfield";
+					t[ "key" ]   = trim( el.listFirst( "=" ) );
+					t[ "value" ] = trim( el.listRest( "=" ) );
+					req.header.append( t );
+				}
+			}
+			if ( req.arguments.body.len() ) {
+				var t        = {};
+				t[ "type" ]  = "body";
+				t[ "key" ]   = "body";
+				t[ "value" ] = req.arguments.body;
+				req.header.append( t );
 			}
 		}
 
