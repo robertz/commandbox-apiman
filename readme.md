@@ -80,3 +80,18 @@ Can also be expressed as:
     "messages":[]
 }
 ```
+
+### Passing a username and password with a request
+
+`❯ apiman get url="https://api.stripe.com/v1/charges" username="YOUR_USERNAME_HERE" password=""`
+
+```json
+{
+  "object": "list",
+  "count": 45,
+  "data": [
+    ...
+  ]
+}
+```
+

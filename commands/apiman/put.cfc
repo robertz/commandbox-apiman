@@ -13,6 +13,8 @@ component extends="commandbox.system.BaseCommand" {
 		cookie          = "",
 		form            = "",
 		body            = "",
+		username        = "",
+		password        = "",
 		responseHeaders = false
 	){
 		var urlValid = isValid( "url", arguments.url );
@@ -43,9 +45,11 @@ component extends="commandbox.system.BaseCommand" {
 		// return;
 
 		cfhttp(
-			url     = req.url.raw,
-			method  = req.method,
-			charset = "utf-8"
+			url      = req.url.raw,
+			method   = req.method,
+			username = req.arguments.username,
+			password = req.arguments.password,
+			charset  = "utf-8"
 		) {
 			for ( var h in req.header ) {
 				if ( h.type == "body" ) {
