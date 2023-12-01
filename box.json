@@ -1,61 +1,22 @@
 {
     "author":"Robert Zehnder",
-    "bugs":"",
-    "changelog":"",
-    "contributors":[],
     "dependencies":{},
     "description":"Query your API from commandbox command line",
-    "devDependencies":{},
-    "documentation":"",
-    "homepage":"",
+    "documentation":"https://github.com/robertz/commandbox-apiman",
+    "homepage":"https://github.com/robertz/commandbox-apiman",
     "ignore":[
         "**/.*",
-        "/test/",
         "/tests/"
     ],
-    "installPaths":{},
-    "instructions":"",
-    "keywords":[],
-    "license":[
-        {
-            "type":"",
-            "URL":""
-        }
-    ],
-    "location":"ForgeboxStorage",
     "name":"commandbox-apiman",
-    "private":false,
-    "projectURL":"",
-    "reinitWatchDelay":500,
-    "reinitWatchDirectory":"",
-    "reinitWatchPaths":"",
+    "projectURL":"https://github.com/robertz/commandbox-apiman",
     "repository":{
-        "type":"",
-        "URL":""
+        "type":"Git",
+        "URL":"https://github.com/robertz/commandbox-apiman"
     },
     "scripts":{},
-    "shortDescription":"A sweet package",
+    "shortDescription":"A curl-like command for commandbox",
     "slug":"commandbox-apiman",
-    "testbox":{
-        "bundles":"",
-        "directory":"tests.specs",
-        "excludes":"",
-        "labels":"",
-        "options":{},
-        "recurse":true,
-        "reporter":"",
-        "runner":[
-            {
-                "default":""
-            }
-        ],
-        "testBundles":"",
-        "testSpecs":"",
-        "testSuites":"",
-        "verbose":true,
-        "watchDelay":500,
-        "watchPaths":"**.cfc"
-    },
     "type":"commandbox-modules",
     "version":"1.0.0"
 }
