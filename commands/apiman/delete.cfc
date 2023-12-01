@@ -4,7 +4,7 @@ component extends="commandbox.system.BaseCommand" {
 
 	/*
 	 * @author Robert Zehnder
-	 * Execute a GET request to specified endpoint
+	 * Execute a DELETE request to specified endpoint
 	 */
 	function run(
 		url             = "",
