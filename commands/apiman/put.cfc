@@ -17,12 +17,6 @@ component extends="commandbox.system.BaseCommand" {
 		password        = "",
 		responseHeaders = false
 	){
-		var urlValid = isValid( "url", arguments.url );
-		if ( !urlValid ) {
-			print.redLine( "Invalid URL passed: " & arguments.url );
-			return;
-		}
-
 		var req = {
 			"method" : "PUT",
 			"url"    : {
@@ -34,11 +28,28 @@ component extends="commandbox.system.BaseCommand" {
 			},
 			"header"    : [],
 			"cookie"    : [],
-			"arguments" : arguments
+			"arguments" : {
+				"url"         : [],
+				"query"       : [],
+				"header"      : [],
+				"cookie"      : [],
+				"form"        : [],
+				"body"        : "",
+				"user"        : "",
+				"pass"        : "",
+				"showHeaders" : false
+			},
+			"raw_arguments" : arguments
 		};
 
-		// This will populate the req structure
+		// Breakout arguments and populate the req structure
+		RequestSetupService.parseArgs( req );
 		RequestSetupService.setupRequest( req );
+
+		if ( !isValid( "url", req.url.raw ) ) {
+			print.redLine( "Invalid URL passed: " & req.url.raw );
+			return;
+		}
 
 		// DEBUG
 		// print.line( req );
@@ -47,8 +58,8 @@ component extends="commandbox.system.BaseCommand" {
 		cfhttp(
 			url      = req.url.raw,
 			method   = req.method,
-			username = req.arguments.username,
-			password = req.arguments.password,
+			username = req.arguments.user,
+			password = req.arguments.pass,
 			charset  = "utf-8"
 		) {
 			for ( var h in req.header ) {
@@ -64,7 +75,7 @@ component extends="commandbox.system.BaseCommand" {
 			}
 		};
 
-		if ( cfhttp.keyExists( "responseHeader" ) && arguments.responseHeaders ) {
+		if ( cfhttp.keyExists( "responseHeader" ) && req.arguments.showHeaders ) {
 			for ( var key in cfhttp.responseheader ) {
 				var keyValue = isSimpleValue( cfhttp.responseHeader[ key ] ) ? cfhttp.responseHeader[ key ] : serializeJSON(
 					cfhttp.responseHeader[ key ]
