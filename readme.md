@@ -1,12 +1,31 @@
 ### commandbox-apiman
 
-Installation:
+Apiman is a curl-like application that can be executed from the commandbox commandline.
+
+#### Installation:
 
 ```bash
 box install commandbox-apiman
 ```
 
-Apiman is a curl-like application that can be executed from the commandbox commandline.
+#### Usage
+
+```bash
+apiman <verb> <url>
+```
+
+#### Flags
+
+Supported commandline flags
+* **-q**: Query params - Set a semicolon separated list of query params for the request.
+* **-c**: Cookies - Set a semicolon separated list of cookies for the request.
+* **-h**: Headers - Set a semicolon separated list of headers for the request.
+* **-f**: Form Fields - Set a semicolon separated list of form fields for the request. Only valid for POST/PUT operations.
+* **-d**: Data - Set raw data for the body of a request. Only valid for POST/PUT operations.
+* **-u**: User - Set the username for the request.
+* **-p**: Passord - Set the password for the request.
+* **-showHeaders**: Shows the response headers for the request.
+
 
 `❯ apiman get https://jsonplaceholder.typicode.com/todos/1`
 ```json
@@ -25,7 +44,7 @@ If you need to pass query parameters you can either wrap the url in quotes to pa
 
 Can also be expressed as:
 
-`❯ apiman get url=https://jsonplaceholder.typicode.com/comments query="postId=1"`
+`❯ apiman get -q "postId=1" https://jsonplaceholder.typicode.com/comments`
 ```json
 [
     {
@@ -68,7 +87,7 @@ Can also be expressed as:
 
 ### Posting JSON data to a service
 
-`❯ apiman post url="http://localhost:8000/ui/auth/login" header="Content-Type=application/json" body='{username : "admin", password : "commandbox" }'`
+`❯ apiman post http://localhost:8000/ui/auth/login -h "Content-Type=application/json" -d '{username : "admin", password : "commandbox" }'`
 ```json
 {
     "data":{
@@ -89,7 +108,7 @@ Can also be expressed as:
 
 ### Passing a username and password with a request
 
-`❯ apiman get url="https://api.stripe.com/v1/charges" username="YOUR_USERNAME_HERE" password=""`
+`❯ apiman get https://api.stripe.com/v1/charges -u "YOUR_USERNAME_HERE"`
 
 ```json
 {
