@@ -2,6 +2,70 @@ component {
 
 	/*
 	 * @author Robert Zehnder
+	 * Parse out positional arguments
+	 */
+	function parseArgs( required struct req ){
+		var keys = req.raw_arguments.keyList().listToArray();
+		var done = false;
+		var idx  = 1;
+
+		while ( !done ) {
+			if ( req.raw_arguments[ idx ].find( "-" ) == 1 ) {
+				switch ( req.raw_arguments[ idx ] ) {
+					case "-u":
+						// user
+						req.arguments.user = req.raw_arguments[ idx + 1 ];
+						idx += 2;
+						break;
+					case "-p":
+						// pass
+						req.arguments.pass = req.raw_arguments[ idx + 1 ];
+						idx += 2;
+						break;
+					case "-q":
+						// query params
+						req.arguments.query = req.raw_arguments[ idx + 1 ];
+						idx += 2;
+						break;
+					case "-c":
+						// cookies
+						req.arguments.cookie = req.raw_arguments[ idx + 1 ];
+						idx += 2;
+						break;
+					case "-h":
+						// headers
+						req.arguments.header = req.raw_arguments[ idx + 1 ];
+						idx += 2;
+						break;
+					case "-f":
+						// form fields
+						req.arguments.form = req.raw_arguments[ idx + 1 ];
+						idx += 2;
+						break;
+					case "-d":
+						// data
+						req.arguments.body = req.raw_arguments[ idx + 1 ];
+						idx += 2;
+						break;
+					case "-showHeaders":
+						req.arguments.showHeaders = true;
+						idx += 1;
+						break;
+					default:
+						break;
+				}
+			} else {
+				if ( isValid( "url", req.raw_arguments[ idx ] ) ) {
+					req.url.raw = req.raw_arguments[ idx ];
+				}
+				idx++;
+			}
+			if ( idx > keys.len() ) done = true;
+		}
+	}
+
+	/*
+	 * @author Robert Zehnder
 	 * Build all required request options to make an http call
 	 */
 	function setupRequest( required struct req ){
