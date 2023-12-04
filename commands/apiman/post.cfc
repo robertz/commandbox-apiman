@@ -10,7 +10,7 @@ component extends="commandbox.system.BaseCommand" {
 		var req = {
 			"method" : "POST",
 			"url"    : {
-				"raw"      : arguments.url,
+				"raw"      : "",
 				"protocol" : "",
 				"host"     : [],
 				"path"     : [],
