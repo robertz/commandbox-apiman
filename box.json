@@ -14,7 +14,10 @@
         "type":"Git",
         "URL":"https://github.com/robertz/commandbox-apiman"
     },
-    "scripts":{},
+    "scripts":{
+        "onRelease":"publish",
+        "postPublish":"!git push --follow-tags"
+    },
     "shortDescription":"A curl-like command for commandbox",
     "slug":"commandbox-apiman",
     "type":"commandbox-modules",
