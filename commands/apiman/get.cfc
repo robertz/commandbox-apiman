@@ -32,6 +32,13 @@ component extends="commandbox.system.BaseCommand" {
 
 		// Breakout arguments and populate the req structure
 		RequestSetupService.parseArgs( req );
+
+		if ( req.parse_error ) {
+			print.redLine( "There was an error parsing arguments. Please check your parameters and try again!" );
+			print.line();
+			return;
+		}
+
 		RequestSetupService.setupRequest( req );
 
 		if ( !isValid( "url", req.url.raw ) ) {
